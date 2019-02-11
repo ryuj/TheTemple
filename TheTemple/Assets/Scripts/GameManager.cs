@@ -47,23 +47,6 @@ public class GameManager : MonoBehaviour
 
         score = PlayerPrefs.GetInt(KEY_SCORE, 0);
         templeLevel = PlayerPrefs.GetInt(KEY_LEVEL, 0);
-        currentOrb = PlayerPrefs.GetInt(KEY_ORB, 10);
-
-        for (int i = 0; i < currentOrb; ++i)
-        {
-            CreateOrb();
-        }
-        
-        var time = PlayerPrefs.GetString(KEY_TIME, "");
-        if (time == "")
-        {
-            lastDateTime = DateTime.UtcNow;
-        }
-        else
-        {
-            long temp = Convert.ToInt64(time);
-            lastDateTime = DateTime.FromBinary(temp);
-        }
 
         nextScore = nextScoreTable[templeLevel];
 
@@ -75,19 +58,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (currentOrb < MAX_ORB)
-        {
-            TimeSpan timeSpan = DateTime.UtcNow - lastDateTime;
-
-            if (timeSpan >= TimeSpan.FromSeconds(RESPAWN_TIME))
-            {
-                while (timeSpan >= TimeSpan.FromSeconds(RESPAWN_TIME))
-                {
-                    CreateNewOrb();
-                    timeSpan -= TimeSpan.FromSeconds(RESPAWN_TIME);
-                }
-            }
-        }
+        
     }
 
     public void CreateNewOrb()
@@ -109,8 +80,8 @@ public class GameManager : MonoBehaviour
         var orb = Instantiate(orbPrefab);
         orb.transform.SetParent(canvasGame.transform, false);
         orb.transform.localPosition = new Vector3(
-            UnityEngine.Random.Range(-300, 300),
-            UnityEngine.Random.Range(-140, -500));
+            UnityEngine.Random.Range(-100, 100),
+            UnityEngine.Random.Range(-300, -450));
         
         int kind = UnityEngine.Random.Range(0, templeLevel + 1);
         switch (kind)
@@ -124,6 +95,20 @@ public class GameManager : MonoBehaviour
             case 2:
                 orb.GetComponent<OrbManager>().SetKind(OrbManager.ORB_KIND.PURPLE);
                 break;
+        }
+
+        orb.GetComponent<OrbManager>().FlyOrb();
+
+        audioSource.PlayOneShot(getScoreSE);
+
+        var stateInfo = imageMokugyo.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.fullPathHash == Animator.StringToHash("Base Layer.get@ImageMokugyo"))
+        {
+            imageMokugyo.GetComponent<Animator>().Play(stateInfo.fullPathHash, 0, .0f);
+        }
+        else
+        {
+            imageMokugyo.GetComponent<Animator>().SetTrigger("isGetScore");
         }
     }
 

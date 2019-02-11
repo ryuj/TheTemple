@@ -34,30 +34,6 @@ public class OrbManager : MonoBehaviour
         
     }
 
-    public void TouchOrb()
-    {
-        if (Input.GetMouseButton(0) == false)
-        {
-            return;
-        }
-
-        var rect = GetComponent<RectTransform>();
-
-        Vector3[] path = {
-            new Vector3(rect.localPosition.x * 1.5f, 300f, 0f),
-            new Vector3(0f, 150f, 0f),
-        };
-
-        rect.DOLocalPath(path, .5f, PathType.CatmullRom)
-            .SetEase(Ease.OutQuad)
-            .OnComplete(AddOrbPoint);
-
-        rect.DOScale(
-            new Vector3(.5f, .5f, 0f),
-            .5f
-        );
-    }
-
     private void AddOrbPoint()
     {
         switch (orbKind)
@@ -92,5 +68,23 @@ public class OrbManager : MonoBehaviour
                 GetComponent<Image>().sprite = orbPicture[2];
                 break;
         }
+    }
+
+    public void FlyOrb()
+    {
+        var rect = GetComponent<RectTransform>();
+
+        Vector3[] path = {
+            new Vector3(rect.localPosition.x * 4f, 300f, 0f),
+            new Vector3(0f, 250f, 0f),
+        };
+
+        rect.DOLocalPath(path, .5f, PathType.CatmullRom)
+            .SetEase(Ease.OutQuad)
+            .OnComplete(AddOrbPoint);
+        rect.DOScale(
+            new Vector3(.5f, .5f, 0f),
+            .5f
+        );
     }
 }
