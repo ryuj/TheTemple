@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject canvasGame;
     public GameObject textScore;
     public GameObject imageTemple;
+    public GameObject imageMokugyo;
 
     public AudioClip getScoreSE;
     public AudioClip levelUpSE;
@@ -110,6 +111,16 @@ public class GameManager : MonoBehaviour
     public void GetOrb(int getScore)
     {
         audioSource.PlayOneShot(getScoreSE);
+
+        var stateInfo = imageMokugyo.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.fullPathHash == Animator.StringToHash("Base Layer.get@ImageMokugyo"))
+        {
+            imageMokugyo.GetComponent<Animator>().Play(stateInfo.fullPathHash, 0, 0.0f);
+        }
+        else
+        {
+            imageMokugyo.GetComponent<Animator>().SetTrigger("isGetScore");
+        }
 
         if (score < nextScore)
         {
