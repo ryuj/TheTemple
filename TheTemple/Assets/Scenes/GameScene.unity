@@ -973,7 +973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d946a2230a944afd85c2abe52936dc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbPrefab: {fileID: 1253316842856324394, guid: 6945b656f8f0b443d842fb5a256b3234,
+  orbPrefab: {fileID: 2440910443935646738, guid: 6945b656f8f0b443d842fb5a256b3234,
     type: 3}
   smokePrefab: {fileID: 4298448857878557730, guid: fdac0c922a42e4bf9b8a4a4fb60e0e18,
     type: 3}

@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
 
     private DateTime lastDateTime;
 
-    private int[] nextScoreTable = new int[] { 10, 10, 10 };
+    private int[] nextScoreTable = new int[] { 10, 20, 30 };
 
     void Start()
     {
@@ -83,35 +83,52 @@ public class GameManager : MonoBehaviour
         orb.transform.localPosition = new Vector3(
             UnityEngine.Random.Range(-300, 300),
             UnityEngine.Random.Range(-140, -500));
+        
+        int kind = UnityEngine.Random.Range(0, templeLevel + 1);
+        switch (kind)
+        {
+            case 0:
+                orb.GetComponent<OrbManager>().SetKind(OrbManager.ORB_KIND.BLUE);
+                break;
+            case 1:
+                orb.GetComponent<OrbManager>().SetKind(OrbManager.ORB_KIND.GREEN);
+                break;
+            case 2:
+                orb.GetComponent<OrbManager>().SetKind(OrbManager.ORB_KIND.PURPLE);
+                break;
+        }
     }
 
-    public void GetOrb()
+    public void GetOrb(int getScore)
     {
-        score += 1;
-
-        if (score >= nextScore)
+        if (score < nextScore)
         {
-            score = nextScore;
-        }
+            score += getScore;
 
-        TempleLevelUp();
-        RefreshScoreText();
-        imageTemple.GetComponent<TempleManager>().SetTempleScale(score, nextScore);
+            if (score >= nextScore)
+            {
+                score = nextScore;
+            }
 
-        if ((score == nextScore) && (templeLevel == MAX_LEVEL))
-        {
-            ClearEffect();
+            TempleLevelUp();
+            RefreshScoreText();
+            imageTemple.GetComponent<TempleManager>().SetTempleScale(score, nextScore);
+
+            if ((score == nextScore) && (templeLevel == MAX_LEVEL))
+            {
+                ClearEffect();
+            }
         }
 
         currentOrb--;
     }
     
-    void RefreshScoreText()
+    private void RefreshScoreText()
     {
         textScore.GetComponent<Text>().text = "徳：" + score + " / " + nextScore;
     }
 
-    void TempleLevelUp()
+    private void TempleLevelUp()
     {
         if (score >= nextScore)
         {
@@ -128,7 +145,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void TempleLevelUpEffect()
+    private void TempleLevelUpEffect()
     {
         var smoke = Instantiate(smokePrefab);
         smoke.transform.SetParent(canvasGame.transform, false);
@@ -137,7 +154,7 @@ public class GameManager : MonoBehaviour
         Destroy(smoke, .5f);
     }
 
-    void ClearEffect()
+    private void ClearEffect()
     {
         var kusudama = Instantiate(kusudamaPrefab);
         kusudama.transform.SetParent(canvasGame.transform, false);
