@@ -8,8 +8,13 @@ using System;
 public class GameManager : MonoBehaviour
 {
     private const int MAX_ORB = 10;
-    private const int RESPAWN_TIME = 1;
+    private const int RESPAWN_TIME = 5;
     private const int MAX_LEVEL = 2;
+
+    private const string KEY_SCORE = "SCORE";
+    private const string KEY_LEVEL = "LEVEL";
+    private const string KEY_ORB = "ORB";
+    private const string KEY_TIME = "TIME";
 
     public GameObject orbPrefab;
     public GameObject smokePrefab;
@@ -40,14 +45,26 @@ public class GameManager : MonoBehaviour
     {
         audioSource = this.gameObject.GetComponent<AudioSource>();
 
-        currentOrb = 10;
+        score = PlayerPrefs.GetInt(KEY_SCORE, 0);
+        templeLevel = PlayerPrefs.GetInt(KEY_LEVEL, 0);
+        currentOrb = PlayerPrefs.GetInt(KEY_ORB, 10);
 
         for (int i = 0; i < currentOrb; ++i)
         {
             CreateOrb();
         }
+        
+        var time = PlayerPrefs.GetString(KEY_TIME, "");
+        if (time == "")
+        {
+            lastDateTime = DateTime.UtcNow;
+        }
+        else
+        {
+            long temp = Convert.ToInt64(time);
+            lastDateTime = DateTime.FromBinary(temp);
+        }
 
-        lastDateTime = DateTime.UtcNow;
         nextScore = nextScoreTable[templeLevel];
 
         imageTemple.GetComponent<TempleManager>().SetTemplePicture(templeLevel);
@@ -83,6 +100,8 @@ public class GameManager : MonoBehaviour
 
         CreateOrb();
         currentOrb++;
+
+        SaveGameData();
     }
 
     public void CreateOrb()
@@ -142,6 +161,8 @@ public class GameManager : MonoBehaviour
         }
 
         currentOrb--;
+
+        SaveGameData();
     }
     
     private void RefreshScoreText()
@@ -183,5 +204,15 @@ public class GameManager : MonoBehaviour
         kusudama.transform.SetParent(canvasGame.transform, false);
 
         audioSource.PlayOneShot(clearSE);
+    }
+
+    private void SaveGameData()
+    {
+        PlayerPrefs.SetInt(KEY_SCORE, score);
+        PlayerPrefs.SetInt(KEY_LEVEL, templeLevel);
+        PlayerPrefs.SetInt(KEY_ORB, currentOrb);
+        PlayerPrefs.SetString(KEY_TIME, lastDateTime.ToBinary().ToString());
+
+        PlayerPrefs.Save();
     }
 }
