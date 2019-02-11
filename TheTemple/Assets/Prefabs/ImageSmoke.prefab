@@ -3,8 +3,7 @@
 --- !u!1 &4298448857878557730
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 8084495707070758029, guid: fdac0c922a42e4bf9b8a4a4fb60e0e18,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
@@ -12,6 +11,7 @@ GameObject:
   - component: {fileID: 3338920324650142138}
   - component: {fileID: 6715400795249246996}
   - component: {fileID: 1104347675118412400}
+  - component: {fileID: 880813}
   m_Layer: 5
   m_Name: ImageSmoke
   m_TagString: Untagged
@@ -22,8 +22,7 @@ GameObject:
 --- !u!224 &3338920324650142138
 RectTransform:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 8084495707070758028, guid: fdac0c922a42e4bf9b8a4a4fb60e0e18,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4298448857878557730}
@@ -42,8 +41,7 @@ RectTransform:
 --- !u!222 &6715400795249246996
 CanvasRenderer:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 8084495707070758018, guid: fdac0c922a42e4bf9b8a4a4fb60e0e18,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4298448857878557730}
@@ -51,8 +49,7 @@ CanvasRenderer:
 --- !u!114 &1104347675118412400
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 8084495707070758019, guid: fdac0c922a42e4bf9b8a4a4fb60e0e18,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4298448857878557730}
@@ -78,3 +75,22 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!95 &880813
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4298448857878557730}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0f150187b77c04a83b4f2c44103aa94c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
