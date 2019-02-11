@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
 
     private AudioSource audioSource;
 
+    private int numOfOrb;
+
     void Start()
     {
         audioSource = this.gameObject.GetComponent<AudioSource>();
@@ -58,7 +60,47 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        
+        while (numOfOrb > 0)
+        {
+            Invoke("CreateNewOrb", .1f * numOfOrb);
+            numOfOrb--;
+        }
+    }
+
+    void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            // to background
+        }
+        else
+        {
+            var time = PlayerPrefs.GetString(KEY_TIME, "");
+            if (time == "")
+            {
+                lastDateTime = DateTime.UtcNow;
+            }
+            else
+            {
+                long temp = Convert.ToInt64(time);
+                lastDateTime = DateTime.FromBinary(temp);
+            }
+
+            numOfOrb = 0;
+
+            var timeSpan = DateTime.UtcNow - lastDateTime;
+            if (timeSpan >= TimeSpan.FromSeconds(RESPAWN_TIME))
+            {
+                while (timeSpan > TimeSpan.FromSeconds(RESPAWN_TIME))
+                {
+                    if (numOfOrb < MAX_ORB)
+                    {
+                        numOfOrb++;
+                    }
+                    timeSpan -= TimeSpan.FromSeconds(RESPAWN_TIME);
+                }
+            }
+        }
     }
 
     public void CreateNewOrb()
